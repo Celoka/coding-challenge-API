@@ -1,0 +1,10 @@
+node_modules
+DS_Store
+.DS_Store
+src/dist
+dist
+.env
+*.icloud
+package-lock.json
+.jshintrc
+npm-debug.log

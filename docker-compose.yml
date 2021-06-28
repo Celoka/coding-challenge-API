@@ -1,0 +1,35 @@
+version: '3'
+services:
+  api:
+    container_name: api
+    build: .
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - '8000:3000'
+    environment:
+      HOST: ${DB_HOST}
+      REDIS_HOST: redis
+      DIALECT: ${DIALECT}
+      ENVIRONMENT: ${ENVIRONMENT}
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: ${PORT}
+      USERNAME: ${DB_USERNAME}
+      PASSWORD: ${DB_PASSWORD}
+      DATABASE: ${DATABASE}
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    restart: on-failure
+  db:
+    container_name: db
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: pgpassword
+  redis:
+    image: redis
