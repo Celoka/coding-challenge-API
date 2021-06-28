@@ -5,11 +5,7 @@ dotenv.config();
 const {
   ENVIRONMENT,
   PORT,
-  USERNAME,
-  PASSWORD,
-  DATABASE,
   HOST,
-  DIALECT,
   JWT_SECRET,
   CLOUD_NAME,
   API_KEY,
@@ -28,27 +24,15 @@ const common = {
 const config = Object.freeze({
   development: {
     ...common,
-    USERNAME,
-    PASSWORD,
-    DATABASE,
     HOST,
-    DIALECT,
   },
   testing: {
     ...common,
-    USERNAME,
-    PASSWORD,
-    DATABASE,
     HOST,
-    DIALECT,
   },
   production: {
     ...common,
-    USERNAME,
-    PASSWORD,
-    DATABASE,
     HOST,
-    DIALECT,
   },
 });
 

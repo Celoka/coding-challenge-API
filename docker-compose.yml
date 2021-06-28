@@ -19,6 +19,10 @@ services:
       USERNAME: ${DB_USERNAME}
       PASSWORD: ${DB_PASSWORD}
       DATABASE: ${DATABASE}
+      API_KEY: ${API_KEY}
+      API_SECRET: ${API_SECRET}
+      CLOUD_NAME: ${CLOUD_NAME}
+      DEV_DATABASE: ${DEV_DATABASE}
     volumes:
       - .:/usr/app/
       - /usr/app/node_modules

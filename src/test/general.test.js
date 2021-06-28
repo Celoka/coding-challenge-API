@@ -1,0 +1,76 @@
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+
+import app from '../app';
+
+process.env.NODE_ENV = 'test';
+
+chai.use(chaiHttp);
+chai.should();
+
+const { expect } = chai;
+
+describe('Event test', () => {
+  let token = '';
+  before((done) => {
+    chai
+      .request(app)
+      .post('/api/v1/users/login')
+      .send({
+        username: 'Eloka Chima',
+        password: 'Asorock!',
+        email: 'west_black@gmail.com',
+      })
+      .end((err, res) => {
+        token = res.body.data.token;
+        done();
+      });
+  });
+ it('Should return a users created event', (done) => {
+    chai
+      .request(app)
+      .get('/api/v1/event/all-events')
+      .set('token', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.message).to.eql('Request successful');
+        if (err) return done();
+        done();
+      });
+  });
+
+  it('Should require date is not greater than current date', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/event/create')
+      .set('token', token)
+      .send({
+        name: 'Summer Vaccation!',
+        date: '2025-03-14',
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.errors[0]).to.eql(
+          'Event name should have a min of 8 and max of 16 characters'
+        );
+        if (err) return done();
+        done();
+      });
+  });
+  it('Should require name is between 8 and 16 characters', (done) => {
+    chai
+      .request(app)
+      .post('/api/v1/event/create')
+      .set('token', token)
+      .send({
+      name: 'S',
+      date: '2020-03-14',
+    };)
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.errors[0]).to.eql('Event name should have a min of 8 and max of 16 characters');
+        if (err) return done();
+        done();
+      });
+  });
+});
