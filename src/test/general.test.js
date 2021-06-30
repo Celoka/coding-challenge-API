@@ -45,13 +45,13 @@ describe('Event test', () => {
       .post('/api/v1/event/create')
       .set('token', token)
       .send({
-        name: 'Summer Vaccation!',
+        name: 'New event!',
         date: '2025-03-14',
       })
       .end((err, res) => {
         res.should.have.status(400);
         expect(res.body.errors[0]).to.eql(
-          'Event name should have a min of 8 and max of 16 characters'
+          'Date cannot be greater than current date'
         );
         if (err) return done();
         done();
@@ -65,7 +65,7 @@ describe('Event test', () => {
       .send({
       name: 'S',
       date: '2020-03-14',
-    };)
+    })
       .end((err, res) => {
         res.should.have.status(400);
         expect(res.body.errors[0]).to.eql('Event name should have a min of 8 and max of 16 characters');
