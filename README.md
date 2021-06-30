@@ -15,6 +15,7 @@ Contains the code for the coding challenge.
 
 Steps to Install
 
+- Setup your `.env` using the `.env.sample` file in the root folder.
 - `yarn install` To install dependencies
 - `yarn dev` To run application
 - `yarn test` To run the tests suits

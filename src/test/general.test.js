@@ -26,7 +26,7 @@ describe('Event test', () => {
         done();
       });
   });
- it('Should return a users created event', (done) => {
+  it('Should return a users created event', (done) => {
     chai
       .request(app)
       .get('/api/v1/event/all-events')
@@ -63,12 +63,14 @@ describe('Event test', () => {
       .post('/api/v1/event/create')
       .set('token', token)
       .send({
-      name: 'S',
-      date: '2020-03-14',
-    })
+        name: 'S',
+        date: '2020-03-14',
+      })
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.errors[0]).to.eql('Event name should have a min of 8 and max of 16 characters');
+        expect(res.body.errors[0]).to.eql(
+          'Event name should have a min of 8 and max of 16 characters'
+        );
         if (err) return done();
         done();
       });
