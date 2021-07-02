@@ -17,15 +17,40 @@ module.exports = (sequelize, DataTypes) => {
       Event.hasMany(models.SubEvent, { foreignKey: 'eventId', as: 'subevent' });
     }
   }
-  Event.init({
-    name: DataTypes.STRING,
-    date: DataTypes.DATE,
-    picture: DataTypes.STRING,
-    createdBy: DataTypes.STRING,
-    userId: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Event',
-  });
+  Event.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [8, 16],
+        },
+      },
+      date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      picture: {
+        type: DataTypes.STRING,
+        defaultValue: 'a default image',
+      },
+      createdBy: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      userId: DataTypes.INTEGER,
+    },
+    {
+      sequelize,
+      modelName: 'Event',
+      validate: {
+        checkDate() {
+          if (new Date(this.date) > new Date()) {
+            throw new Error('Date cannot be greater than current date');
+          }
+        },
+      },
+    }
+  );
   return Event;
 };

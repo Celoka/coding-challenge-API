@@ -11,7 +11,6 @@ services:
       - '8000:3000'
     environment:
       HOST: ${DB_HOST}
-      REDIS_HOST: redis
       DIALECT: ${DIALECT}
       ENVIRONMENT: ${ENVIRONMENT}
       JWT_SECRET: ${JWT_SECRET}
@@ -22,7 +21,7 @@ services:
       API_KEY: ${API_KEY}
       API_SECRET: ${API_SECRET}
       CLOUD_NAME: ${CLOUD_NAME}
-      DEV_DATABASE: ${DEV_DATABASE}
+      DEV_DATABASE: postgres://username:pgpassword@db/code
     volumes:
       - .:/usr/app/
       - /usr/app/node_modules
@@ -35,5 +34,3 @@ services:
     environment:
       POSTGRES_USER: username
       POSTGRES_PASSWORD: pgpassword
-  redis:
-    image: redis

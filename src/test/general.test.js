@@ -2,6 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 
 import app from '../app';
+import { Event } from '../models';
 
 process.env.NODE_ENV = 'test';
 
@@ -23,6 +24,41 @@ describe('Event test', () => {
       })
       .end((err, res) => {
         token = res.body.data.token;
+        done();
+      });
+  });
+  /**
+   * The first and second test cases are unit tests for the event models.
+   */
+  it('Should request for a validate date', (done) => {
+    Event.create({
+      name: 'New event!',
+      date: '2025-03-14',
+      createdBy: 'Default User',
+      userId: 2
+    })
+    .then(() => {
+      expect.fail();
+      done();
+    })
+    .catch((err) => {
+      expect(err.name).to.be.equal('SequelizeValidationError');
+      done();
+    });
+  });
+  it('Should require name field is between 8 and 16 characters', (done) => {
+    Event.create({
+      name: 'Very long name field that will throw error!',
+      date: '2021-03-14',
+      createdBy: 'Default User',
+      userId: 2,
+    })
+      .then(() => {
+        expect.fail();
+        done();
+      })
+      .catch((err) => {
+        expect(err.name).to.be.equal('SequelizeValidationError');
         done();
       });
   });
